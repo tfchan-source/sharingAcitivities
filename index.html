@@ -255,7 +255,7 @@
     // Pointer-based drag for sharing (works on touch)
     function attachSharingDrag(){
       // Remove previous listeners by cloning containers (simple reset)
-      const newPool = poolEl.cloneNode(false);
+      const newPool = poolEl.cloneNode(true);
       poolEl.parentNode.replaceChild(newPool, poolEl);
 
       // update reference
