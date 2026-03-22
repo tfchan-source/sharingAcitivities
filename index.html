@@ -226,20 +226,18 @@
       shareState.groups = Math.max(1, parseInt(shareGroupsInput.value,10) || 1);
       shareState.items = [];
 
-    window.addEventListener('DOMContentLoaded', () => {
-        for(let i=0;i<shareState.total;i++){
-            const id = uid('s');
-            const it = document.createElement('div');
-            it.className = 'item';
-            it.setAttribute('data-id', id);
-            it.setAttribute('role','button');
-            it.setAttribute('aria-label','item');
-            it.innerText = shareIcon;
-            poolEl.appendChild(it);
-            shareState.items.push({id, el: it, location: 'pool'});
-        }
-    });
-      
+    for(let i=0;i<shareState.total;i++){
+        const id = uid('s');
+        const it = document.createElement('div');
+        it.className = 'item';
+        it.setAttribute('data-id', id);
+        it.setAttribute('role','button');
+        it.setAttribute('aria-label','item');
+        it.innerText = shareIcon;
+        poolEl.appendChild(it);
+        shareState.items.push({id, el: it, location: 'pool'});
+    }
+          
 
       for(let g=0; g<shareState.groups; g++){
         const grp = document.createElement('div');
