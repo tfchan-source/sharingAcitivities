@@ -1,580 +1,87 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Division — Sharing or Grouping</title>
-  <style>
-    :root{
-      --bg:#f7fbff;
-      --card:#ffffff;
-      --accent:#2b8cff;
-      --muted:#6c7a89;
-      --good:#2ecc71;
-      --warn:#ffb74d;
-      --danger:#ff6b6b;
-      --item-size:56px;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    html,body{height:100%}
-    body{
-      margin:0;
-      background:linear-gradient(180deg,#e6f0ff 0%,var(--bg) 35%);
-      color:#123;
-      padding:20px;
-      box-sizing:border-box;
-    }
-    .wrap{max-width:1100px;margin:0 auto;}
-    header{display:flex;align-items:center;gap:16px;margin-bottom:18px;}
-    h1{margin:0;font-size:20px;}
-    .nav{
-      margin-left:auto;
-      display:flex;gap:8px;align-items:center;
-    }
-    .nav button{
-      background:transparent;border:1px solid rgba(43,140,255,0.12);padding:8px 12px;border-radius:10px;color:var(--accent);cursor:pointer;font-weight:700;
-    }
-    .nav button.active{background:var(--accent);color:white;border-color:var(--accent)}
-    .panel{
-      background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(11,33,80,0.06);margin-bottom:16px;
-    }
-    .small{font-size:13px;color:var(--muted);margin-bottom:8px}
-    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-    .control{background:var(--card);border-radius:8px;padding:8px;box-shadow:0 2px 6px rgba(12,40,80,0.03);display:flex;gap:8px;align-items:center}
-    label{font-size:13px;color:var(--muted)}
-    input[type="number"]{width:80px;padding:6px;border-radius:6px;border:1px solid #dbe7ff;font-size:14px;text-align:center}
-    button.btn{background:var(--accent);color:white;border:0;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700}
-    button.ghost{background:#f1f6ff;color:var(--accent);border:1px solid #dbefff}
-    /* Sharing */
-    .sharing-top{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-    .items-pool{display:flex;gap:8px;flex-wrap:wrap;padding:8px;background:linear-gradient(180deg,#fff 0,#f6fbff 100%);border-radius:10px;min-height:88px;align-items:center;justify-content:flex-start}
-    .item{width:var(--item-size);height:var(--item-size);display:flex;align-items:center;justify-content:center;border-radius:10px;background:linear-gradient(180deg,#fff 0,#eaf6ff 100%);box-shadow:0 3px 6px rgba(12,40,80,0.06);font-size:22px;user-select:none;touch-action:none;cursor:grab}
-    .item.dragging{opacity:0.6; transform:scale(0.98)}
-    .groups-row{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-top:12px}
-    .group{flex:1 1 120px;min-height:120px;background:linear-gradient(180deg,#f9fbff,#fff);border:2px dashed rgba(43,140,255,0.14);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px;align-items:center;transition:background .15s,border-color .15s}
-    .group.over{background:linear-gradient(180deg,#e9f3ff,#fff);border-color:var(--accent)}
-    .group .label{font-size:13px;color:var(--muted)}
-    .group .contents{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;width:100%;min-height:48px;align-items:center}
-    .stats{display:flex;gap:12px;align-items:center;margin-top:8px}
-    .stat{background:#f1f7ff;padding:8px;border-radius:8px;font-size:14px;color:#123}
-    /* Grouping */
-    .grouping-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px;align-items:center;margin-top:8px}
-    .grid-item{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:999px;background:linear-gradient(180deg,#fff 0,#f8fbff 100%);box-shadow:0 3px 6px rgba(12,40,80,0.05);cursor:pointer;user-select:none;font-size:20px;transition:transform .12s,box-shadow .12s}
-    .grid-item.selected{box-shadow:0 8px 18px rgba(43,140,255,0.12);transform:translateY(-4px)}
-    .grid-item.grouped{color:white;font-weight:700}
-    .grouping-summary{display:flex;gap:12px;align-items:center;margin-top:10px}
-    .badge{background:var(--accent);color:white;padding:6px 10px;border-radius:999px;font-weight:700}
-    .color-key{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
-    .color-dot{width:18px;height:18px;border-radius:50%}
-    .footer{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}
-    @media(min-width:900px){ .columns{display:flex;gap:18px} .left{flex:1} .right{flex:1} }
-    footer.credit{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <header>
-      <div>
-        <h1>Division: Sharing or Grouping</h1>
-        <div class="small">Choose an activity and change the numbers. Suitable for primary learners.</div>
+<nav class="nav" aria-label="Activity selection">
+    <button id="btnShare" class="active" aria-pressed="true">Sharing</button>
+    <button id="btnGroup" aria-pressed="false">Grouping</button>
+  </nav>
+</header>
+
+<!-- Controls -->
+<section class="panel" id="configPanel" aria-label="Configuration">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <div class="controls" id="shareControls">
+      <div class="control"><label for="shareItems">Share items</label><input id="shareItems" type="number" min="0" value="10" /></div>
+      <div class="control"><label for="shareGroups">Groups</label><input id="shareGroups" type="number" min="1" value="3" /></div>
+    </div>
+
+    <div class="controls" id="groupControls" style="display:none">
+      <div class="control"><label for="groupItems">Group items</label><input id="groupItems" type="number" min="0" value="20" /></div>
+      <div class="control"><label for="itemsPerGroup">Per group</label><input id="itemsPerGroup" type="number" min="1" value="3" /></div>
+    </div>
+
+    <div style="margin-left:auto;display:flex;gap:8px">
+      <button id="resetAll" class="ghost">Reset defaults</button>
+    </div>
+  </div>
+</section>
+
+<!-- Sharing view -->
+<section id="sharingView" class="panel" aria-labelledby="sharingTitle">
+  <h2 id="sharingTitle">Activity — Sharing (Drag to Columns)</h2>
+  <div class="small">Drag items from the pool into the empty columns to share them equally. See how many each group gets and any left over.</div>
+
+  <div class="sharing-top" style="margin-top:12px">
+    <div style="flex:1">
+      <div class="small">Items to share</div>
+      <div id="pool" class="items-pool" aria-label="Items to share" tabindex="0"></div>
+    </div>
+
+    <div style="width:260px">
+      <div class="small">Summary</div>
+      <div class="stats" id="sharingStats">
+        <div class="stat" id="perGroupShare">Each group: 0</div>
+        <div class="stat" id="remainderShare">Leftover: 0</div>
       </div>
-
-      <nav class="nav" aria-label="Activity selection">
-        <button id="btnShare" class="active" aria-pressed="true">Sharing</button>
-        <button id="btnGroup" aria-pressed="false">Grouping</button>
-      </nav>
-    </header>
-
-    <!-- Controls (shared area for convenience) -->
-    <section class="panel" id="configPanel" aria-label="Configuration">
-      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-        <!-- Sharing controls -->
-        <div class="controls" id="shareControls">
-          <div class="control"><label for="shareItems">Share items</label><input id="shareItems" type="number" min="0" value="10" /></div>
-          <div class="control"><label for="shareGroups">Groups</label><input id="shareGroups" type="number" min="1" value="3" /></div>
-        </div>
-
-        <!-- Grouping controls -->
-        <div class="controls" id="groupControls" style="display:none">
-          <div class="control"><label for="groupItems">Group items</label><input id="groupItems" type="number" min="0" value="20" /></div>
-          <div class="control"><label for="itemsPerGroup">Per group</label><input id="itemsPerGroup" type="number" min="1" value="3" /></div>
-        </div>
-
-        <div style="margin-left:auto;display:flex;gap:8px">
-          <button id="resetAll" class="ghost">Reset defaults</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sharing view -->
-    <section id="sharingView" class="panel" aria-labelledby="sharingTitle">
-      <h2 id="sharingTitle">Activity — Sharing (Drag to Columns)</h2>
-      <div class="small">Drag items from the pool into the empty columns to share them equally. See how many each group gets and any left over.</div>
-
-      <div class="sharing-top" style="margin-top:12px">
-        <div style="flex:1">
-          <div class="small">Items to share</div>
-          <div id="pool" class="items-pool" aria-label="Items to share" tabindex="0"></div>
-        </div>
-
-        <div style="width:260px">
-          <div class="small">Summary</div>
-          <div class="stats" id="sharingStats">
-            <div class="stat" id="perGroupShare">Each group: 0</div>
-            <div class="stat" id="remainderShare">Leftover: 0</div>
-          </div>
-          <div style="margin-top:8px" class="help">Tip: drag an item onto a column. Click an item in a column to move it back to the pool.</div>
-        </div>
-      </div>
-
-      <div style="margin-top:12px">
-        <div class="small">Groups</div>
-        <div id="groupsRow" class="groups-row" aria-label="Target groups"></div>
-      </div>
-    </section>
-
-    <!-- Grouping view -->
-    <section id="groupingView" class="panel" aria-labelledby="groupingTitle" style="display:none">
-      <h2 id="groupingTitle">Activity — Grouping (Select to make groups)</h2>
-      <div class="small">Click items to select them into groups of a fixed size. Complete groups are shown as colored groups so you can easily see how many groups were formed and any leftovers.</div>
-
-      <div style="margin-top:10px">
-        <div class="small">Items (click to include in a group)</div>
-        <div id="groupGrid" class="grouping-grid" aria-live="polite"></div>
-      </div>
-
-      <div class="grouping-summary" aria-hidden="false">
-        <div class="badge" id="completeGroups">0 groups</div>
-        <div class="help" id="groupingRemainder">Leftover: 0</div>
-      </div>
-
-      <div class="color-key" id="colorKey" aria-hidden="true" style="margin-top:8px"></div>
-
-      <div class="footer" style="margin-top:12px">
-        <div class="help">Complete groups show a color and are numbered. Leftover items remain uncolored.</div>
-        <div style="display:flex;gap:8px">
-          <button id="autoGroup" class="btn">Auto group</button>
-          <button id="resetGroup" class="ghost">Reset selection</button>
-        </div>
-      </div>
-    </section>
-
-    <footer class="credit">Upload this file as index.html to GitHub Pages to host. You can change emoji icons in the script section.</footer>
+      <div style="margin-top:8px" class="help">Tip: drag an item onto a column. Click an item in a column to move it back to the pool.</div>
+    </div>
   </div>
 
-  <script>
-    // --- Icons (change if you prefer images) ---
-    const shareIcon = "3"; // pencils for sharing
-    const groupIcon = "🧴"; // erasers for grouping
+  <div style="margin-top:12px">
+    <div class="small">Groups</div>
+    <div id="groupsRow" class="groups-row" aria-label="Target groups"></div>
+  </div>
+</section>
 
-    // --- Basic DOM refs ---
-    const btnShare = document.getElementById('btnShare');
-    const btnGroup = document.getElementById('btnGroup');
-    const sharingView = document.getElementById('sharingView');
-    const groupingView = document.getElementById('groupingView');
+<!-- Grouping view -->
+<section id="groupingView" class="panel" aria-labelledby="groupingTitle" style="display:none">
+  <h2 id="groupingTitle">Activity — Grouping (Select to make groups)</h2>
+  <div class="small">Click items to select them into groups of a fixed size. Complete groups are shown as colored groups so you can easily see how many groups were formed and any leftovers.</div>
 
-    const shareControls = document.getElementById('shareControls');
-    const groupControls = document.getElementById('groupControls');
+  <div style="margin-top:10px">
+    <div class="small">Items (click to include in a group)</div>
+    <div id="groupGrid" class="grouping-grid" aria-live="polite"></div>
+  </div>
 
-    // Sharing elements
-    const poolEl = document.getElementById('pool');
-    const groupsRow = document.getElementById('groupsRow');
-    const perGroupShareEl = document.getElementById('perGroupShare');
-    const remainderShareEl = document.getElementById('remainderShare');
-    const shareItemsInput = document.getElementById('shareItems');
-    const shareGroupsInput = document.getElementById('shareGroups');
+  <div class="grouping-summary" aria-hidden="false">
+    <div class="badge" id="completeGroups">0 groups</div>
+    <div class="help" id="groupingRemainder">Leftover: 0</div>
+  </div>
 
-    // Grouping elements
-    const groupGrid = document.getElementById('groupGrid');
-    const groupItemsInput = document.getElementById('groupItems');
-    const itemsPerGroupInput = document.getElementById('itemsPerGroup');
-    const completeGroupsBadge = document.getElementById('completeGroups');
-    const groupingRemainder = document.getElementById('groupingRemainder');
-    const autoGroupBtn = document.getElementById('autoGroup');
-    const resetGroupBtn = document.getElementById('resetGroup');
-    const colorKey = document.getElementById('colorKey');
+  <div class="color-key" id="colorKey" aria-hidden="true" style="margin-top:8px"></div>
 
-    const resetAllBtn = document.getElementById('resetAll');
+  <div class="footer" style="margin-top:12px">
+    <div class="help">Complete groups show a color and are numbered. Leftover items remain uncolored.</div>
+    <div style="display:flex;gap:8px">
+      <button id="autoGroup" class="btn">Auto group</button>
+      <button id="resetGroup" class="ghost">Reset selection</button>
+    </div>
+  </div>
+</section>
 
-    // --- State ---
-    let shareState = { total: parseInt(shareItemsInput.value,10)||0, groups: Math.max(1, parseInt(shareGroupsInput.value,10)||1), items: [] };
-    let groupState = { total: parseInt(groupItemsInput.value,10)||0, perGroup: Math.max(1, parseInt(itemsPerGroupInput.value,10)||1), selected: [] };
+<footer class="credit">Upload this file as index.html to GitHub Pages to host. You can change emoji icons in the script section.</footer>
 
-    // UID
-    let uidCounter = 1;
-    function uid(prefix='i'){ return prefix + (uidCounter++); }
+</div>
 
-    // Activity switching
-    btnShare.addEventListener('click', ()=>{
-      btnShare.classList.add('active'); btnShare.setAttribute('aria-pressed','true');
-      btnGroup.classList.remove('active'); btnGroup.setAttribute('aria-pressed','false');
-      sharingView.style.display = ''; groupingView.style.display = 'none';
-      shareControls.style.display = ''; groupControls.style.display = 'none';
-    });
-    btnGroup.addEventListener('click', ()=>{
-      btnGroup.classList.add('active'); btnGroup.setAttribute('aria-pressed','true');
-      btnShare.classList.remove('active'); btnShare.setAttribute('aria-pressed','false');
-      sharingView.style.display = 'none'; groupingView.style.display = '';
-      shareControls.style.display = 'none'; groupControls.style.display = '';
-    });
+<script src="app.js"></script>
 
-    // ------- SHARING ACTIVITY -------
-    function buildSharing(){
-      poolEl.innerHTML = '';
-      groupsRow.innerHTML = '';
-      shareState.total = Math.max(0, parseInt(shareItemsInput.value,10) || 0);
-      shareState.groups = Math.max(1, parseInt(shareGroupsInput.value,10) || 1);
-      shareState.items = [];
-
-    for(let i=0;i<shareState.total;i++){
-        const id = uid('s');
-        const it = document.createElement('div');
-        it.className = 'item';
-        it.setAttribute('data-id', id);
-        it.setAttribute('role','button');
-        it.setAttribute('aria-label','item');
-        it.innerText = shareIcon;
-        poolEl.appendChild(it);
-        shareState.items.push({id, el: it, location: 'pool'});
-    }
-          
-
-      for(let g=0; g<shareState.groups; g++){
-        const grp = document.createElement('div');
-        grp.className = 'group';
-        grp.setAttribute('data-group', g);
-        grp.setAttribute('tabindex',0);
-        grp.innerHTML = '<div class="label">Group ' + (g+1) + '</div><div class="contents"></div>';
-        groupsRow.appendChild(grp);
-      }
-
-      updateSharingStats();
-      attachSharingDrag();
-    }
-
-    // Pointer-based drag for sharing (works on touch)
-    function attachSharingDrag(){
-      // Remove previous listeners by cloning containers (simple reset)
-      const newPool = poolEl.cloneNode(true);
-      poolEl.parentNode.replaceChild(newPool, poolEl);
-
-      // update reference
-      const pool = document.getElementById('pool');
-
-      let dragging = null, mirror = null, offsetX = 0, offsetY = 0;
-
-      function onPointerDown(e){
-        const target = e.target.closest('.item');
-        if(!target) return;
-        e.preventDefault();
-        target.setPointerCapture(e.pointerId);
-        dragging = target;
-        dragging.classList.add('dragging');
-        const rect = target.getBoundingClientRect();
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
-
-        mirror = target.cloneNode(true);
-        mirror.style.position = 'fixed';
-        mirror.style.left = (e.clientX - offsetX) + 'px';
-        mirror.style.top = (e.clientY - offsetY) + 'px';
-        mirror.style.zIndex = 9999;
-        mirror.style.pointerEvents = 'none';
-        mirror.classList.add('dragging');
-        document.body.appendChild(mirror);
-
-        window.addEventListener('pointermove', onPointerMove);
-        window.addEventListener('pointerup', onPointerUp);
-      }
-
-      function onPointerMove(e){
-        if(!dragging || !mirror) return;
-        mirror.style.left = (e.clientX - offsetX) + 'px';
-        mirror.style.top = (e.clientY - offsetY) + 'px';
-        const elems = document.elementsFromPoint(e.clientX, e.clientY);
-        const grp = elems.find(el => el.classList && el.classList.contains('group'));
-        document.querySelectorAll('.group').forEach(g => g.classList.remove('over'));
-        if(grp) grp.classList.add('over');
-      }
-
-      function onPointerUp(e){
-        if(!dragging) return;
-        dragging.classList.remove('dragging');
-        if(mirror){ mirror.remove(); mirror = null; }
-        const elems = document.elementsFromPoint(e.clientX, e.clientY);
-        const grpEl = elems.find(el => el.classList && el.classList.contains('group'));
-        const poolHit = elems.find(el => el === pool || (el.closest && el.closest('.items-pool') === pool));
-        const id = dragging.getAttribute('data-id');
-        const itemObj = shareState.items.find(it => it.id === id);
-
-        if(grpEl){
-          const contents = grpEl.querySelector('.contents');
-          contents.appendChild(dragging);
-          itemObj.location = 'group:' + grpEl.getAttribute('data-group');
-        } else if(poolHit){
-          pool.appendChild(dragging);
-          itemObj.location = 'pool';
-        } else {
-          // fallback to pool
-          pool.appendChild(dragging);
-          itemObj.location = 'pool';
-        }
-
-        document.querySelectorAll('.group').forEach(g => g.classList.remove('over'));
-        window.removeEventListener('pointermove', onPointerMove);
-        window.removeEventListener('pointerup', onPointerUp);
-        dragging = null;
-        updateSharingStats();
-      }
-
-      // attach to pool and groups container (delegation)
-      pool.addEventListener('pointerdown', onPointerDown);
-      groupsRow.addEventListener('pointerdown', onPointerDown);
-
-      // click in group moves item back to pool
-      groupsRow.addEventListener('click', (e)=>{
-        const it = e.target.closest('.item');
-        if(!it) return;
-        pool.appendChild(it);
-        const id = it.getAttribute('data-id');
-        const itemObj = shareState.items.find(x=>x.id===id);
-        if(itemObj) itemObj.location = 'pool';
-        updateSharingStats();
-      });
-    }
-
-    function updateSharingStats(){
-      const counts = new Array(shareState.groups).fill(0);
-      for(const it of shareState.items){
-        if(it.location && it.location.startsWith('group:')){
-          const idx = parseInt(it.location.split(':')[1],10);
-          if(!isNaN(idx) && idx>=0 && idx<counts.length) counts[idx]++;
-        } else {
-          // try to infer from DOM position
-          const parent = it.el.parentElement;
-          if(parent && parent.classList.contains('contents')){
-            const grp = parent.closest('.group');
-            if(grp){
-              const idx = parseInt(grp.getAttribute('data-group'),10);
-              counts[idx]++;
-              it.location = 'group:' + idx;
-            } else {
-              it.location = 'pool';
-            }
-          } else {
-            it.location = 'pool';
-          }
-        }
-      }
-      const totalPlaced = counts.reduce((a,b)=>a+b,0);
-      const inPool = shareState.total - totalPlaced;
-      const perGroup = Math.floor(shareState.total / shareState.groups);
-      const remainder = shareState.total % shareState.groups;
-      perGroupShareEl.innerText = 'Each group (equal share): ' + perGroup;
-      remainderShareEl.innerText = 'Leftover (equal share): ' + remainder;
-
-      document.querySelectorAll('.group').forEach(g=>{
-        const idx = parseInt(g.getAttribute('data-group'),10);
-        const label = g.querySelector('.label');
-        const cnt = counts[idx] || 0;
-        label.innerText = 'Group ' + (idx+1) + ' — has ' + cnt;
-      });
-    }
-
-    // ------- GROUPING ACTIVITY -------
-    // friendly color palette for groups
-    const groupColors = ['#4DB6AC','#90CAF9','#FFAB91','#CE93D8','#FFF59D','#A5D6A7','#FFCC80','#B39DDB','#81D4FA','#F48FB1'];
-
-    function buildGrouping(){
-      groupGrid.innerHTML = '';
-      colorKey.innerHTML = '';
-      groupState.total = Math.max(0, parseInt(groupItemsInput.value,10) || 0);
-      groupState.perGroup = Math.max(1, parseInt(itemsPerGroupInput.value,10) || 1);
-      groupState.selected = [];
-
-      for(let i=0;i<groupState.total;i++){
-        const id = uid('g');
-        const el = document.createElement('div');
-        el.className = 'grid-item';
-        el.setAttribute('data-id', id);
-        el.setAttribute('role','button');
-        el.setAttribute('aria-pressed','false');
-        el.innerText = groupIcon;
-        groupGrid.appendChild(el);
-      }
-
-      // build color key (up to reasonable number)
-      for(let i=0;i<10;i++){
-        const dot = document.createElement('div');
-        dot.style.display = 'flex';
-        dot.style.alignItems = 'center';
-        dot.style.gap = '6px';
-        dot.style.fontSize = '13px';
-        const color = groupColors[i % groupColors.length];
-        const circle = document.createElement('div');
-        circle.className = 'color-dot';
-        circle.style.background = color;
-        const label = document.createElement('div');
-        label.innerText = (i+1) + (i===0? ' group color':'' ) + '';
-        dot.appendChild(circle);
-        dot.appendChild(label);
-        colorKey.appendChild(dot);
-      }
-
-      updateGroupingStats();
-      attachGroupingHandlers();
-    }
-
-    function attachGroupingHandlers(){
-      groupGrid.onclick = (e)=>{
-        const el = e.target.closest('.grid-item');
-        if(!el) return;
-        const id = el.getAttribute('data-id');
-        const idx = groupState.selected.indexOf(id);
-        if(idx >= 0){
-          groupState.selected.splice(idx,1);
-          el.classList.remove('selected');
-          el.setAttribute('aria-pressed','false');
-        } else {
-          groupState.selected.push(id);
-          el.classList.add('selected');
-          el.setAttribute('aria-pressed','true');
-        }
-        assignGroupColors();
-        updateGroupingStats();
-      };
-    }
-
-    // Assign colors and "group numbers" to selected items so complete groups are visually distinct.
-    function assignGroupColors(){
-      // We'll color selected items sequentially into groups of size perGroup.
-      const per = groupState.perGroup;
-      const selectedEls = Array.from(groupGrid.querySelectorAll('.grid-item')).filter(el => groupState.selected.includes(el.getAttribute('data-id')));
-      // Clear previous grouping classes/styles
-      Array.from(groupGrid.children).forEach(el=>{
-        el.classList.remove('grouped');
-        el.style.background = '';
-        el.style.color = '';
-        el.style.border = '';
-      });
-
-      // For each complete group, assign a distinct color
-      const completeGroups = Math.floor(groupState.selected.length / per);
-      for(let g=0; g<completeGroups; g++){
-        const color = groupColors[g % groupColors.length];
-        // items for this group: selectedEls[g*per ... g*per+per-1]
-        for(let i = g*per; i < g*per + per && i < selectedEls.length; i++){
-          const el = selectedEls[i];
-          el.classList.add('grouped');
-          el.style.background = color;
-          el.style.color = 'white';
-          el.style.fontWeight = '700';
-          el.style.border = '3px solid rgba(255,255,255,0.25)';
-          // small badge to show group number
-          if(!el.querySelector('.grp-b')) {
-            const badge = document.createElement('div');
-            badge.className = 'grp-b';
-            badge.style.position = 'absolute';
-            badge.style.transform = 'translate(12px,-12px)';
-            badge.style.width = '28px';
-            badge.style.height = '28px';
-            badge.style.borderRadius = '50%';
-            badge.style.display = 'flex';
-            badge.style.alignItems = 'center';
-            badge.style.justifyContent = 'center';
-            badge.style.fontSize = '12px';
-            badge.style.background = 'rgba(255,255,255,0.22)';
-            badge.style.color = 'white';
-            badge.style.fontWeight = '700';
-            badge.innerText = (g+1);
-            // make sure parent is positioned
-            el.style.position = 'relative';
-            el.appendChild(badge);
-          } else {
-            el.querySelector('.grp-b').innerText = (g+1);
-            el.querySelector('.grp-b').style.background = 'rgba(255,255,255,0.22)';
-            el.querySelector('.grp-b').style.color = 'white';
-          }
-        }
-      }
-
-      // For selected items that are not part of a complete group, mark them as selected but ungrouped (neutral)
-      for(let i = completeGroups * per; i < selectedEls.length; i++){
-        const el = selectedEls[i];
-        el.classList.remove('grouped');
-        el.style.background = '';
-        el.style.color = '';
-        // remove badge if present
-        const b = el.querySelector('.grp-b');
-        if(b) b.remove();
-      }
-    }
-
-    function updateGroupingStats(){
-      const selCount = groupState.selected.length;
-      const per = groupState.perGroup;
-      const completeGroups = Math.floor(selCount / per);
-      const remainder = selCount % per;
-      completeGroupsBadge.innerText = completeGroups + ' group' + (completeGroups===1 ? '' : 's');
-      groupingRemainder.innerText = 'Leftover: ' + remainder;
-
-      // Visually assign colors/badges
-      assignGroupColors();
-    }
-
-    function autoGroup(){
-      // selects items sequentially to make as many full groups as possible
-      groupState.selected = [];
-      const per = groupState.perGroup;
-      const maxFull = Math.floor(groupState.total / per);
-      const toSelect = maxFull * per;
-      const els = Array.from(groupGrid.querySelectorAll('.grid-item'));
-      for(let i=0;i<els.length;i++){
-        const id = els[i].getAttribute('data-id');
-        if(i < toSelect){
-          groupState.selected.push(id);
-          els[i].classList.add('selected');
-          els[i].setAttribute('aria-pressed','true');
-        } else {
-          els[i].classList.remove('selected');
-          els[i].setAttribute('aria-pressed','false');
-        }
-      }
-      updateGroupingStats();
-    }
-
-    // Reset handlers
-    resetAllBtn.addEventListener('click', ()=>{
-      shareItemsInput.value = 10;
-      shareGroupsInput.value = 3;
-      groupItemsInput.value = 20;
-      itemsPerGroupInput.value = 3;
-      buildSharing();
-      buildGrouping();
-    });
-
-    resetGroupBtn.addEventListener('click', ()=>{
-      groupState.selected = [];
-      buildGrouping();
-    });
-
-    autoGroupBtn.addEventListener('click', autoGroup);
-
-    // Rebuild when inputs change
-    shareItemsInput.addEventListener('change', buildSharing);
-    shareGroupsInput.addEventListener('change', buildSharing);
-    groupItemsInput.addEventListener('change', buildGrouping);
-    itemsPerGroupInput.addEventListener('change', buildGrouping);
-
-    // Initial build
-    buildSharing();
-    buildGrouping();
-
-    // Keyboard accessibility shortcuts (optional)
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === '1'){ btnShare.click(); }
-      if(e.key === '2'){ btnGroup.click(); }
-    });
-  </script>
 </body>
+
 </html>
