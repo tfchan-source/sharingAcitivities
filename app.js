@@ -1,5 +1,5 @@
 // --- Icons (change if you prefer images) ---
-const shareIcon = "3"; // sharing item character
+const shareIcon = "✏️"; // sharing item character
 const groupIcon = "🧴"; // erasers for grouping
 
 // --- Basic DOM refs ---
