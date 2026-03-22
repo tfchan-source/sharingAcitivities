@@ -1,0 +1,67 @@
+styles.css
+Save as styles.css — copy all your CSS rules here.
+:root{
+--bg:#f7fbff;
+--card:#ffffff;
+--accent:#2b8cff;
+--muted:#6c7a89;
+--good:#2ecc71;
+--warn:#ffb74d;
+--danger:#ff6b6b;
+--item-size:56px;
+font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+html,body{height:100%}
+body{
+margin:0;
+background:linear-gradient(180deg,#e6f0ff 0%,var(--bg) 35%);
+color:#123;
+padding:20px;
+box-sizing:border-box;
+}
+.wrap{max-width:1100px;margin:0 auto;}
+header{display:flex;align-items:center;gap:16px;margin-bottom:18px;}
+h1{margin:0;font-size:20px;}
+.nav{
+margin-left:auto;
+display:flex;gap:8px;align-items:center;
+}
+.nav button{
+background:transparent;border:1px solid rgba(43,140,255,0.12);padding:8px 12px;border-radius:10px;color:var(--accent);cursor:pointer;font-weight:700;
+}
+.nav button.active{background:var(--accent);color:white;border-color:var(--accent)}
+.panel{
+background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(11,33,80,0.06);margin-bottom:16px;
+}
+.small{font-size:13px;color:var(--muted);margin-bottom:8px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.control{background:var(--card);border-radius:8px;padding:8px;box-shadow:0 2px 6px rgba(12,40,80,0.03);display:flex;gap:8px;align-items:center}
+label{font-size:13px;color:var(--muted)}
+input[type="number"]{width:80px;padding:6px;border-radius:6px;border:1px solid #dbe7ff;font-size:14px;text-align:center}
+button.btn{background:var(--accent);color:white;border:0;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700}
+button.ghost{background:#f1f6ff;color:var(--accent);border:1px solid #dbefff}
+/* Sharing /
+.sharing-top{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.items-pool{display:flex;gap:8px;flex-wrap:wrap;padding:8px;background:linear-gradient(180deg,#fff 0,#f6fbff 100%);border-radius:10px;min-height:88px;align-items:center;justify-content:flex-start}
+.item{width:var(--item-size);height:var(--item-size);display:flex;align-items:center;justify-content:center;border-radius:10px;background:linear-gradient(180deg,#fff 0,#eaf6ff 100%);box-shadow:0 3px 6px rgba(12,40,80,0.06);font-size:22px;user-select:none;touch-action:none;cursor:grab}
+.item.dragging{opacity:0.6; transform:scale(0.98)}
+.groups-row{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-top:12px}
+.group{flex:1 1 120px;min-height:120px;background:linear-gradient(180deg,#f9fbff,#fff);border:2px dashed rgba(43,140,255,0.14);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px;align-items:center;transition:background .15s,border-color .15s}
+.group.over{background:linear-gradient(180deg,#e9f3ff,#fff);border-color:var(--accent)}
+.group .label{font-size:13px;color:var(--muted)}
+.group .contents{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;width:100%;min-height:48px;align-items:center}
+.stats{display:flex;gap:12px;align-items:center;margin-top:8px}
+.stat{background:#f1f7ff;padding:8px;border-radius:8px;font-size:14px;color:#123}
+/ Grouping */
+.grouping-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px;align-items:center;margin-top:8px}
+.grid-item{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:999px;background:linear-gradient(180deg,#fff 0,#f8fbff 100%);box-shadow:0 3px 6px rgba(12,40,80,0.05);cursor:pointer;user-select:none;font-size:20px;transition:transform .12s,box-shadow .12s}
+.grid-item.selected{box-shadow:0 8px 18px rgba(43,140,255,0.12);transform:translateY(-4px)}
+.grid-item.grouped{color:white;font-weight:700}
+.grouping-summary{display:flex;gap:12px;align-items:center;margin-top:10px}
+.badge{background:var(--accent);color:white;padding:6px 10px;border-radius:999px;font-weight:700}
+.color-key{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.color-dot{width:18px;height:18px;border-radius:50%}
+.footer{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+@media(min-width:900px){ .columns{display:flex;gap:18px} .left{flex:1} .right{flex:1} }
+footer.credit{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+
